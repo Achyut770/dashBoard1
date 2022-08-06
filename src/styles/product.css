@@ -1,0 +1,120 @@
+.product_list {
+    display              : grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap                  : 40px;
+    width                : 100%;
+    max-width            : 700px;
+    margin               : 180px auto;
+    padding              : 5px;
+    margin-right         : 13rem;
+    user-select          : none;
+}
+
+@media screen and (max-width: 420px) {
+    .product_list {
+        margin: 140px auto;
+    }
+}
+
+@media screen and (max-width: 1040px) and (min-width:760px) {
+    .product_list {
+        margin     : 140px auto;
+        margin-left: 100px;
+    }
+}
+
+.product-list--item {
+    display        : flex;
+    justify-content: space-between;
+    background     : #fff;
+    align-items    : center;
+    padding        : 12px;
+    border-radius  : 4px;
+    box-shadow     : 7px 7px 14px -2px rgba(0, 0, 0, .2);
+    max-width      : 400px;
+    position: relative;
+}
+
+.product-list--item:hover {
+    box-shadow: 15px 15px 20px -5px rgba(0, 0, 0, .2);
+}
+
+.product-list--item-details {
+    display        : flex;
+    align-items    : center;
+    justify-content: flex-end;
+}
+
+.product-list--item-details img {
+    width        : 50px;
+    border-radius: 50%;
+    margin       : 0 10px 0 0;
+    transition   : transform 300ms;
+}
+
+.product-list--item-details img:hover {
+    transform: scale(1.05);
+}
+
+.product-list--item-details-name h3 {
+    font-size  : 19px;
+    font-weight: bold;
+}
+
+.product-list--item-details-name span {
+    border-radius: 4px;
+    font-size    : 15px;
+    display      : inline-block;
+    padding      : 5px;
+}
+
+.product-list--item-details-name span.post_tag {
+    background: #2D2F93;
+    color     : #fff;
+}
+
+.product-list--item-details-name span.green {
+    background: #00c170;
+}
+
+.product_list i {
+    font-size  : 20px;
+    text-align : center;
+    line-height: 2;
+    width      : 20px;
+    height     : auto;
+    transition : transform 300ms;
+}
+
+.product_list i:hover {
+    transform: rotate(90deg);
+    cursor   : pointer;
+}
+
+.product_list i:hover:active {
+    color: #a5a5b1;
+}
+
+.e_library{
+    gap: 20px;
+}
+
+.product_list2{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.product_library_indv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+ justify-content: space-between;
+ width: 100%;
+}
+
+.image_Name{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}

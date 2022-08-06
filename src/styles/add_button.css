@@ -1,0 +1,68 @@
+#add_button {
+    position   : fixed;
+    border     : 0;
+    cursor     : pointer;
+    outline    : none;
+    user-select: none;
+    white-space: nowrap;
+    transition : transform 300ms ease-in-out;
+}
+
+#add_button:hover {
+    transform: scale(1.05);
+}
+
+#add_button {
+    top            : 100px;
+    right          : 25px;
+    background     : #8DC53E;
+    border-radius  : 50%;
+    width          : 40px;
+    height         : 40px;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    color          : #fff;
+}
+
+#add_button.fa-plus {
+    font-size: 30px;
+    height   : 50px;
+    width    : 50px;
+}
+
+#add_button.fa-plus:hover ul li {
+    visibility: visible;
+    opacity   : 1;
+}
+
+#add_button .nav {
+    top       : 60px;
+    right     : 0;
+    position  : fixed;
+    height    : auto;
+    visibility: hidden;
+}
+
+#add_button .nav ul li {
+    background   : white;
+    color        : #000;
+    width        : 100%;
+    border-radius: 10px;
+    box-shadow   : 0 0 7px rgba(0, 0, 0, .3);
+    margin       : 5px;
+    padding      : 10px;
+    font-size    : 19px;
+    text-align   : left;
+    opacity      : 0;
+    visibility   : hidden;
+    transition   : opacity 400ms, visibility 400ms;
+}
+
+#add_button .nav :hover {
+    background: #e9e9ec;
+}
+
+#add_button .nav :hover:active {
+    background: #dcdce0;
+}
