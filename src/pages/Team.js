@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/add_button.css";
 import "../styles/team.css";
+import axios from "axios"
 
 function Team() {
 
@@ -127,6 +128,8 @@ setInputTeam((prev)=>{
     })
   }
   const RemoveTeam=(id)=>{
+    axios.delete("url" , {
+    } ).then((res)=>console.log(res)).catch((err)=> console.log(err))
     setTeamData((prev)=>{
      return prev.filter((items,index)=>{
          return id!=index
@@ -134,7 +137,6 @@ setInputTeam((prev)=>{
     })
     setDeleteTeam(false)
   }
-
   const doubleHiideTeam = (id)=>{
     const arr = teamdata
     arr[id].hide=false
@@ -176,6 +178,11 @@ setInputTeam((prev)=>{
               <span>Instagrem Link:</span>
               <input className="mt-1" type="text" name="instagram" onChange={handleChangeTeam} value={teamInput.instagram} />
             </div>
+            <div className="d-flex flex-column">
+              <span>Image:</span>
+              <input className="mt-1" type="file" name="instagram"/>
+            </div>
+
             <button onClick={()=> SaveTeam()}>Save</button>
             </div>
    </div>}
@@ -210,6 +217,10 @@ setInputTeam((prev)=>{
             <div className="d-flex flex-column">
               <span>Instagrem Link:</span>
               <input className="mt-1" type="text" name="instagram" onChange={handleChangeTeam} value={teamEditInput.instagram} />
+            </div>
+            <div className="d-flex flex-column">
+              <span>Image:</span>
+              <input className="mt-1" type="file" name="image" />
             </div>
             <button>Save The Changes</button>
             </div>

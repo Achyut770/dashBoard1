@@ -10,6 +10,7 @@ function Account() {
   const[deleteProduvtBoolean , setDeleteProduvtBoolean] = React.useState(false)
   const [editProduct , setEditProduct] = React.useState(false)
   const [proHideBoolena , setProHideBoolean] = React.useState(false)
+  const [ changePasswordBoolean  , setChangePasswordBoolean] = React.useState(false)
   const [productInput , setInputProduct] = React.useState({
     name:"",
     post:"Admin",
@@ -35,7 +36,7 @@ function Account() {
       name: "E-library",
     },
   ];
- 
+
   const [ accountData , setAccountData] = React.useState([...product])
   const [ editAccountInput , setEditAccountInput] = React.useState({
     name:"",
@@ -85,7 +86,10 @@ function Account() {
       }
     })
       }
-      const RemoveProduct=(id)=>{
+
+      const RemoveAccount=(id)=>{
+        axios.delete("url" , {
+        } ).then((res)=>console.log(res)).catch((err)=> console.log(err))
         setAccountData((prev)=>{
          return prev.filter((items,index)=>{
              return id!=index
@@ -112,6 +116,7 @@ function Account() {
             [e.target.name]:e.target.value
           }
         })
+        console.log(editAccountInput)
       }
 
       const hideProduct =(id)=>{
@@ -126,6 +131,12 @@ function Account() {
         arr[id].hide=false
         setAccountData([...arr])
         setProHideBoolean(false)
+      }
+
+      const changePassword =(id)=>{
+         setChangePasswordBoolean(true)
+         const arr = accountData
+         arr.map((items)=> items.hide=false)
       }
   return (
     <div>
@@ -144,15 +155,38 @@ function Account() {
               <span>Email:</span>
               <input className="mt-1" type="text" name="email" onChange={handleChangePro} value={productInput.email} />
             </div>
+            <div className="d-flex flex-column">
+              <span>Password:</span>
+              <input className="mt-1" type="text" name="password" onChange={handleChangePro} value={productInput.email} />
+            </div>
        
             <button onClick={()=> SaveAccount()}>Save</button>
             </div>
    </div>}
+   {changePasswordBoolean && <div className="popup_container"> 
+      <div className="popup p-4"> 
+      <span   onClick={()=>setChangePasswordBoolean(false)} className="popupCross" > <i class="fa-solid fa-xmark"></i></span>
+     
+      <div className="d-flex flex-column">
+              <span>Old-Password:</span>
+              <input className="mt-1" type="text" name="oldpassword" onChange={editProductHandleChange} value={editAccountInput.oldpassword} />
+            </div>
+            <div className="d-flex flex-column">
+              <span>New_Password:</span>
+              <input className="mt-1" type="text" name="newpassowrd" onChange={editProductHandleChange} value={editAccountInput.newpassowrd} />
+            </div>
+            <div className="d-flex flex-column">
+              <span>C-Password:</span>
+              <input className="mt-1" type="ext" name="confirmpassword" onChange={editProductHandleChange} value={editAccountInput.confirmpassword} />
+            </div>
+            <button>Save</button>
+            </div>
+   </div>}
    {editProduct && <div className="popup_container"> 
       <div className="popup p-4"> 
-                 
+
       <span   onClick={()=>setEditProduct(false)} className="popupCross" > <i class="fa-solid fa-xmark"></i></span>
-            <div className="d-flex flex-column">
+      <div className="d-flex flex-column">
               <span>Name:</span>
               <input className="mt-1" type="text" name="name" onChange={editProductHandleChange} value={editAccountInput.name} />
             </div>
@@ -164,18 +198,8 @@ function Account() {
               <span>Email:</span>
               <input className="mt-1" type="text" name="email" onChange={editProductHandleChange} value={editAccountInput.email} />
             </div>
-            <div className="d-flex flex-column">
-              <span>Old-Password:</span>
-              <input className="mt-1" type="oldpassword" name="password" onChange={editProductHandleChange} value={editAccountInput.oldpassword} />
-            </div>
-            <div className="d-flex flex-column">
-              <span>New_Password:</span>
-              <input className="mt-1" type="newpassword" name="password" onChange={handleChangePro} value={editAccountInput.newpassword} />
-            </div>
-            <div className="d-flex flex-column">
-              <span>C-Password:</span>
-              <input className="mt-1" type="confirmpassword" name="password" onChange={handleChangePro} value={editAccountInput.confirmpassword} />
-            </div>
+     
+       
             <button>Save The Changes</button>
             </div>
    </div>}
@@ -195,7 +219,6 @@ function Account() {
                 <img src={image} alt="" />
                 <div className="product-list--item-details-name">
                   <h3>{name}</h3>
-                  {/* <span className="post_tag">{post}</span> */}
                 </div>
               </div>
               <div className="product-list--item-menu"></div>
@@ -203,8 +226,9 @@ function Account() {
               {proHideBoolena ? <i className="fas fa-ellipsis-v" onClick={()=> doubleHiideProduct(id)}  ></i> : <i className="fas fa-ellipsis-v" onClick={()=> hideProduct(id)}  ></i> }
 
               { hide && <li className="delete_Edit" >
-                <span onClick={()=>RemoveProduct(id)} >Delete</span>
+                <span onClick={()=>RemoveAccount(id)} >Delete</span>
                 <span onClick={(()=> EditProduct(name , role , email , password ))} >Edit</span>
+                <span onClick={(()=> changePassword(id ))} >Change-Password</span>
               </li>} 
             </li>
           );

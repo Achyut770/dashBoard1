@@ -81,7 +81,9 @@ function Blog() {
       }
     })
       }
-      const RemoveProduct=(id)=>{
+      const RemoveBlog=(id)=>{
+        axios.delete("url" , {
+        } ).then((res)=>console.log(res)).catch((err)=> console.log(err))
         setProductData((prev)=>{
          return prev.filter((items,index)=>{
              return id!=index
@@ -155,7 +157,7 @@ function Blog() {
             </div>
             <div className="d-flex flex-column">
               <span>Image:</span>
-              <input className="mt-1" type="text" name="image" onChange={handleChangePro} value={productInput.image} />
+              <input className="mt-1" type="file"  name="image"/>
             </div>
             <div className="d-flex flex-column">
               <span>Post:</span>
@@ -179,7 +181,7 @@ function Blog() {
             </div>
             <div className="d-flex flex-column">
               <span>Image:</span>
-              <input className="mt-1" type="text" name="image" onChange={editProductHandleChange} value={editBlogInput.image} />
+              <input className="mt-1" type="file" name="image" />
             </div>
             <div className="d-flex flex-column">
               <span>Post:</span>
@@ -214,7 +216,7 @@ function Blog() {
               {proHideBoolena ? <i className="fas fa-ellipsis-v" onClick={()=> doubleHiideProduct(id)}  ></i> : <i className="fas fa-ellipsis-v"  onClick={()=> hideProduct(id)} ></i> }
 
               { hide && <li className="delete_Edit" >
-                <span onClick={()=>RemoveProduct(id)} >Delete</span>
+                <span onClick={()=>RemoveBlog(id)} >Delete</span>
                 <span onClick={(()=> EditProduct(name, image , post  , discription  ))} >Edit</span>
               </li>} 
             </li>

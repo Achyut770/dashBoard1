@@ -65,7 +65,7 @@ function Testimonal() {
   const handleChangeTestimonal = (e)=>{
     setInputTestimonal((prev)=>{
       return { ...prev , 
-               [e.target.name]: e.target.value
+               [e.target.name]: e.target.name==="image" ? e.target.file[0] : e.target.value
       }
     })
       }
@@ -79,7 +79,7 @@ function Testimonal() {
         })
         setDeleteTestimonal(false)
       }
-      
+
       const  EditTestimonal = (name , image , post, discripton   )=>{
         setEditTestimonal(true)
         const arr = testimonalData
@@ -130,8 +130,7 @@ function Testimonal() {
           alert("Invalid Input")
         }
        }
-
-    
+       
   return (
     <div>
            {testimonalBoolean && <div className="popup_container"> 
@@ -141,10 +140,9 @@ function Testimonal() {
               <span>Name:</span>
               <input className="mt-1" type="text" name="name" onChange={handleChangeTestimonal} value={testimonalInput.name} />
             </div>
-         
             <div className="d-flex flex-column">
               <span>Image:</span>
-              <input className="mt-1" type="text" name="image" onChange={handleChangeTestimonal} value={testimonalInput.image} />
+              <input className="mt-1" type="file" name="image" onChange={handleChangeTestimonal} />
             </div>
             <div className="d-flex flex-column">
               <span>Post:</span>
@@ -168,7 +166,7 @@ function Testimonal() {
            
             <div className="d-flex flex-column">
               <span>Image:</span>
-              <input className="mt-1" type="text" name="image" onChange={editTestimonalHandleChange} value={editTestimonalInput.image} />
+              <input className="mt-1" type="file" name="image" />
             </div>
             <div className="d-flex flex-column">
               <span>Post:</span>
