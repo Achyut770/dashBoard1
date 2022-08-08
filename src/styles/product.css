@@ -137,4 +137,20 @@
     position: absolute;
     left: 10px;
     top: 10px;
+    cursor: pointer;
+}
+.library{
+    z-index: 9999;
+}
+
+span{
+    cursor: pointer;
+}
+
+i{
+    cursor: pointer;
+}
+
+button{
+    cursor: pointer;
 }

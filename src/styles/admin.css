@@ -99,18 +99,18 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 50%;
+   top: 58%;
     left: 50%;
     transform: translate(-50%,-50%);
     z-index:999;
     width: 95vw;
     height: 100vh;
-    /* background-color: red; */
+    
 }
 
 .popup{
     border-radius: 10px;
-    min-width: 375px;
+    min-width: 345px;
     width: 35%;
     background-color: white;
     box-shadow: 15px 15px 20px -5px rgba(0, 0, 0, .2);
@@ -171,8 +171,54 @@ input{
     height: 37px;
 }
 
+.delete_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+   top: 55%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index:999999;
+    width: 95vw;
+    height: 100vh;
+}
+.delete{
+    border-radius: 10px;
+    min-width: 200px;
+    background-color: white;
+    box-shadow: 15px 15px 20px -5px rgba(0, 0, 0, .2);
+  border: 1px solid black;
+  position: relative;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.yesOrNo{
+    display: flex;
+    flex-direction: row;
+  gap: 40px;
+}
+.yesOrNo > button{
+    width: 50px;
+    border-radius: 5px;;
+    background-color: #2D2F93;
+    border: none;
+    height: 25px;
+    color: white;
+}
+
 @media screen and (max-width: 855px) {
     .delete_Edit {
      right: 30px;
     }
 }
+

@@ -15,6 +15,7 @@ import Enquiry from "./pages/Enqueries";
 import Testimonal from "./pages/testimonal";
 import Blog from "./pages/Blog";
 import Account from "./pages/account";
+import Login from "./pages/login";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/testimonal" element={<Testimonal />}></Route>
         <Route path="/blog" element={<Blog />}></Route>
         <Route path="/account" element={<Account />}></Route>
+        <Route path="/login" element={<Login />}></Route>
       </Routes>
     </Router>
   );

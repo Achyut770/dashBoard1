@@ -2,22 +2,26 @@ import React from "react";
 import "../styles/product.css";
 import "../styles/add_button.css";
 import axios from "axios"
+import api from "./api";
 
 function Account() {
 
   const [accountBoolean , setAccountBoolean] = React.useState(false)
   const[deletePro , setDeletePro]= React.useState(false)
   const[deleteProduvtBoolean , setDeleteProduvtBoolean] = React.useState(false)
-  const [editProduct , setEditProduct] = React.useState(false)
-  const [proHideBoolena , setProHideBoolean] = React.useState(false)
+  const [editProduct , setEditAccount] = React.useState(false)
+  const  [ accountId , setAccountId] = React.useState("")
+  const  [ removeAccount , setAccountRemove] = React.useState(false)
+  const [accountHideBoolena , setAccountHideBoolean] = React.useState(false)
   const [ changePasswordBoolean  , setChangePasswordBoolean] = React.useState(false)
-  const [productInput , setInputProduct] = React.useState({
+  const [accountInput , setInputAccount] = React.useState({
     name:"",
     post:"Admin",
     image:"https://assets.codepen.io/250758/internal/avatars/users/default.png",
     role:"",
     email:"",
     password:"",
+    image:null
   })
   const product = [
     {
@@ -44,61 +48,20 @@ function Account() {
  email:"",
  oldpassword:"",
  newpassowrd:"",
- confirmpassword:""
+ confirmpassword:"",
+ image:null
   })
 
-  const SaveAccount = ()=>{
-    if(productInput.name==="" || productInput.password==="" || productInput.image===""  || productInput.role===""){
-      axios.post("url" ,{
-        namae:productInput.name,
-        password:productInput.password,
-        image:productInput.image,
-        role:productInput.role
-      } ).then((res)=> console.log(res) ).catch((res)=> console.log(res))
-      setAccountData([productInput , ...accountData])
-      setAccountBoolean(false)
-    }
-    else(
-      alert("invalid input")
-    )
-    let Name = productInput.name
-    if(Name!=""){
-      setAccountData([productInput , ...accountData])
-      setAccountBoolean(false)
-    } else{
-      return
-    }
-    setInputProduct((prev)=>{
-        return {
-            ...prev ,
-            name:"",
-            role:"",
-            email:"",
-            password:"",
-        }
-    })
-  }
-
   const handleChangePro = (e)=>{
-    setInputProduct((prev)=>{
+    setInputAccount((prev)=>{
       return { ...prev , 
-               [e.target.name]: e.target.value
+               [e.target.name]: e.target.name==="image" ? e.target.file[0] : e.target.value
       }
     })
       }
 
-      const RemoveAccount=(id)=>{
-        axios.delete("url" , {
-        } ).then((res)=>console.log(res)).catch((err)=> console.log(err))
-        setAccountData((prev)=>{
-         return prev.filter((items,index)=>{
-             return id!=index
-         })
-        })
-        setDeletePro(false)
-      }
-      const  EditProduct = (name, role , email , password )=>{
-        setEditProduct(true)
+      const  EditAccount = (name, role , email , password , id )=>{
+        setEditAccount(true)
         const arr = accountData
         arr.map((items)=> items.hide=false)
         setAccountData([...arr])
@@ -108,58 +71,162 @@ function Account() {
         input.email=email
         input.password=password
         setEditAccountInput(input)
+        setAccountId(id)
       }
       const editProductHandleChange = (e)=>{
         setEditAccountInput((prev)=>{
           return {
             ...prev ,
-            [e.target.name]:e.target.value
+            [e.target.name]: e.target.name==="image" ? e.target.file[0] : e.target.value
           }
         })
         console.log(editAccountInput)
       }
+
+//  Save Account
+      const SaveAccount = ()=>{
+        const formData = new FormData();
+        formData.append("name" ,accountInput.name );
+        formData.append("password" ,accountInput.post );
+        formData.append("image" ,accountInput.image  ,accountInput.image.name );
+        formData.append("role" ,accountInput.role )
+
+        if(accountInput.name==="" || accountInput.password==="" || accountInput.image===""  || accountInput.role===""){
+          axios.post("url" , formData ,  {headers: { 'content-type': 'multipart/form-data' }} 
+           ).then((res)=> console.log(res) ).catch((res)=> console.log(res))
+          setAccountData([accountInput , ...accountData])
+          setAccountBoolean(false)
+        }
+        else(
+          alert("invalid input")
+        )
+        setInputAccount((prev)=>{
+            return {
+                ...prev ,
+                name:"",
+                role:"",
+                email:"",
+                password:"",
+            }
+        })
+      }
+    
 
       const hideProduct =(id)=>{
         const arr = accountData
         arr.map((items)=> items.hide=false)
         arr[id].hide=true
         setAccountData([...arr])
-        setProHideBoolean(true)
+        setAccountHideBoolean(true)
        }
        const doubleHiideProduct = (id)=>{
         const arr = accountData
         arr[id].hide=false
         setAccountData([...arr])
-        setProHideBoolean(false)
+        setAccountHideBoolean(false)
       }
 
-      const changePassword =(id)=>{
+      const changePassword =(id , index)=>{
          setChangePasswordBoolean(true)
          const arr = accountData
          arr.map((items)=> items.hide=false)
+         setAccountId(index)
       }
+
+      //   ResetPassword
+   const ResetPassword = async ()=>{
+    const {oldpassword , newpassowrd , confirmpassword } = editAccountInput
+
+    if(oldpassword!=="" || newpassowrd!=="" || confirmpassword!=="" ){
+      if(newpassowrd===confirmpassword){
+        const res = await  axios.patch(("url"), {
+          oldpassword , newpassowrd , confirmpassword 
+        })
+        if(res.status==="success"){
+
+        }
+    
+
+    }  else{
+      alert("password didnt match")
+    }
+    }
+    else{
+      alert("plx fill the form correctly")
+    }
+   }
+
+  //  Edditing Account
+   const editAccount = async ()=>{
+
+    const { name , role , email } = editAccountInput
+    if(name!=="" || role!=="" || email!==""){
+        const  res =  await axios.patch(("url") , {
+          name , role , email
+         })
+         if(res.ststud==="success"){
+
+         }
+    }
+   }
+
+//  Removing Account
+  
+   const RemoveAccount= async  ()=>{
+     const res = await  axios.delete(`${api}/editor/account/delete/${accountId} ` , {
+    } )
+    if(res.status==="success"){
+      //  again fetch data
+      setAccountRemove(false)
+    }
+    setDeletePro(false)
+  }
+  const instantRemoveAccount = (id , index) =>{
+    const arr = accountData
+    arr.map((items)=> items.hide=false)
+    setAccountData([...arr])
+    setAccountId(index)
+    setAccountRemove(true)
+  }
+
   return (
     <div>
+             {
+     removeAccount    && <div className="delete_container">
+          <div className="delete">
+          <span   onClick={()=>setAccountRemove(false)} className="popupCross" > <i class="fa-solid fa-xmark"></i></span>
+            <div>Are you Sure?</div>
+            <div className="yesOrNo">
+              <button onClick={()=> RemoveAccount()}>Yes</button>
+              <button onClick={()=> setAccountRemove(false)} >No</button>
+            </div>
+
+          </div>
+        </div>
+      }
            {accountBoolean && <div className="popup_container"> 
       <div className="popup p-4"> 
       <span   onClick={()=>setAccountBoolean(false)} className="popupCross" > <i class="fa-solid fa-xmark"></i></span>
             <div className="d-flex flex-column">
               <span>Name:</span>
-              <input className="mt-1" type="text" name="name" onChange={handleChangePro} value={productInput.name} />
+              <input className="mt-1" type="text" name="name" onChange={handleChangePro} value={accountInput.name} />
             </div>
             <div className="d-flex flex-column">
               <span>Role:</span>
-              <input className="mt-1" type="text" name="role" onChange={handleChangePro} value={productInput.role} />
+              <input className="mt-1" type="text" name="role" onChange={handleChangePro} value={accountInput.role} />
             </div>
             <div className="d-flex flex-column">
               <span>Email:</span>
-              <input className="mt-1" type="text" name="email" onChange={handleChangePro} value={productInput.email} />
+              <input className="mt-1" type="text" name="email" onChange={handleChangePro} value={accountInput.email} />
             </div>
             <div className="d-flex flex-column">
               <span>Password:</span>
-              <input className="mt-1" type="text" name="password" onChange={handleChangePro} value={productInput.email} />
+              <input className="mt-1" type="text" name="password" onChange={handleChangePro} value={accountInput.email} />
             </div>
-       
+            <div className="d-flex flex-column">
+              <span>Image:</span>
+              <input className="mt-1" type="file" name="image" onChange={handleChangePro}/>
+            </div>
             <button onClick={()=> SaveAccount()}>Save</button>
             </div>
    </div>}
@@ -179,13 +246,14 @@ function Account() {
               <span>C-Password:</span>
               <input className="mt-1" type="ext" name="confirmpassword" onChange={editProductHandleChange} value={editAccountInput.confirmpassword} />
             </div>
-            <button>Save</button>
+          
+            <button onClick={()=> ResetPassword()} >Change Password</button>
             </div>
    </div>}
    {editProduct && <div className="popup_container"> 
       <div className="popup p-4"> 
 
-      <span   onClick={()=>setEditProduct(false)} className="popupCross" > <i class="fa-solid fa-xmark"></i></span>
+      <span   onClick={()=>setEditAccount(false)} className="popupCross" > <i class="fa-solid fa-xmark"></i></span>
       <div className="d-flex flex-column">
               <span>Name:</span>
               <input className="mt-1" type="text" name="name" onChange={editProductHandleChange} value={editAccountInput.name} />
@@ -198,9 +266,12 @@ function Account() {
               <span>Email:</span>
               <input className="mt-1" type="text" name="email" onChange={editProductHandleChange} value={editAccountInput.email} />
             </div>
-     
+            <div className="d-flex flex-column">
+              <span>Image:</span>
+              <input className="mt-1" type="file" name="image" onChange={editProductHandleChange}/>
+            </div>
        
-            <button>Save The Changes</button>
+            <button onCLick={(editAccount())} >Save The Changes</button>
             </div>
    </div>}
     <div>
@@ -212,7 +283,7 @@ function Account() {
         </span>
       </button>
       <ul className="product_list">
-        {accountData.map(({ image, name, post ,hide ,role , email , password  }, id) => {
+        {accountData.map(({ image, name, post ,hide ,role , email , password ,id }, index) => {
           return (
             <li className="product-list--item">
               <div className="product-list--item-details">
@@ -222,13 +293,12 @@ function Account() {
                 </div>
               </div>
               <div className="product-list--item-menu"></div>
-      
-              {proHideBoolena ? <i className="fas fa-ellipsis-v" onClick={()=> doubleHiideProduct(id)}  ></i> : <i className="fas fa-ellipsis-v" onClick={()=> hideProduct(id)}  ></i> }
 
+              {accountHideBoolena ? <i className="fas fa-ellipsis-v" onClick={()=> doubleHiideProduct(index)}  ></i> : <i className="fas fa-ellipsis-v" onClick={()=> hideProduct(index)}  ></i> }
               { hide && <li className="delete_Edit" >
-                <span onClick={()=>RemoveAccount(id)} >Delete</span>
-                <span onClick={(()=> EditProduct(name , role , email , password ))} >Edit</span>
-                <span onClick={(()=> changePassword(id ))} >Change-Password</span>
+                <span onClick={()=>instantRemoveAccount(index , id )} >Delete</span>
+                <span onClick={(()=> EditAccount(name , role , email , password , id ))} >Edit</span>
+                <span onClick={(()=> changePassword( index , id ))} >Change-Password</span>
               </li>} 
             </li>
           );
